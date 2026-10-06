@@ -1,0 +1,2 @@
+"use client"; import { MessageCircle } from "lucide-react";
+export function WhatsAppSupport(){const number=process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g,"");if(!number)return null;return <a href={`https://wa.me/${number}`} target="_blank" rel="noreferrer" aria-label="Chat with NASKAM on WhatsApp" className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#168a48] text-white shadow-lg hover:bg-[#11773d]"><MessageCircle size={26}/></a>}

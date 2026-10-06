@@ -1,0 +1,3 @@
+-- The idempotent catalogue data is maintained with its constraints and
+-- historical-order handling in migrations/202610050001_refresh_itel_catalog.sql.
+-- Apply that migration in Supabase SQL Editor to publish the development catalog.

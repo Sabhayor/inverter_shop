@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="NASKAM solar product placeholder">
+  <rect width="800" height="600" fill="#f4f6f9"/>
+  <g fill="none" stroke="#071b5c" stroke-width="16" stroke-linejoin="round">
+    <path d="M190 360h420l-42-190H232z"/>
+    <path d="M250 230h250M240 295h278M330 170l-25 190M430 170l25 190"/>
+    <circle cx="400" cy="420" r="54" fill="#fff"/>
+    <path d="M400 390v60m-26-30h52" stroke="#d71920"/>
+  </g>
+  <text x="400" y="530" text-anchor="middle" fill="#071b5c" font-family="Arial,sans-serif" font-size="28" font-weight="700">NASKAM SOLAR &amp; POWER</text>
+</svg>

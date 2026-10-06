@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: #111827; background: #fff; font-family: Arial, Helvetica, sans-serif; }
+.container { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+@media (max-width: 640px) { .container { width: min(100% - 32px, 1180px); } }
+button, a { -webkit-tap-highlight-color: transparent; }
