@@ -58,9 +58,24 @@ The login button starts Supabase OAuth with a `redirectTo` on the current websit
 
 ## Section 3 — Mailgun confirmation emails
 
-1. Create/verify a sending domain in [Mailgun](https://app.mailgun.com/). Add its DNS records at your domain registrar and wait until Mailgun marks the domain verified. Use the correct region (US or EU).
-2. Create/copy a Mailgun API key and set `MAILGUN_API_KEY`, `MAILGUN_DOMAIN`, and `MAILGUN_FROM_EMAIL` in `.env.local` (for example `NASKAM Orders <orders@mg.yourdomain.ng>` if that sender is verified).
-3. Restart the app and place a real test order against a controlled test product/email. Email delivery errors are logged server-side and do not undo an order.
+The server sends an HTML and plain-text order confirmation after the database successfully creates an order. The email includes an itemized summary, quantities, naira amounts, delivery address, order number, and the pending-payment notice. Mail failure does not undo the order; it is logged in the Vercel function logs.
+
+1. In [Mailgun](https://app.mailgun.com/), add a sending domain you control. A subdomain such as `mg.example.com` is commonly used for transactional mail. Do not use a domain you do not control.
+2. In the Mailgun domain page, copy each required DNS record (commonly SPF, DKIM and tracking records) exactly as shown. Add them at the DNS host for the domain. DNS changes can take time to propagate; wait until Mailgun shows the domain as verified before testing.
+3. Create a Mailgun API key with permission to send mail for the sending domain. Copy it once and keep it private.
+4. In Vercel, open the deployed project → **Settings → Environment Variables** and add the following to **Production** (and Preview only if you want previews to send email):
+
+   - `MAILGUN_API_KEY`: the Mailgun sending API key.
+   - `MAILGUN_DOMAIN`: the exact verified sending domain, e.g. `mg.example.com` (no `https://`).
+   - `MAILGUN_FROM_EMAIL`: a sender authorized for that domain, e.g. `NASKAM Orders <orders@mg.example.com>`.
+   - `MAILGUN_API_BASE_URL`: `https://api.mailgun.net` for US Mailgun accounts, or `https://api.eu.mailgun.net` for EU accounts.
+
+5. Save the variables and redeploy the latest production commit. Vercel only applies changed environment variables to new deployments.
+6. Place a test order using a controlled product with a confirmed positive price and stock, and use an inbox you control in the checkout email field. Mailgun's sandbox domains may only deliver to recipients authorized in Mailgun; a verified sending domain is required for normal customer delivery.
+7. Check the Vercel project → **Logs** for `Mailgun accepted order confirmation` or `Mailgun order confirmation failed`. Also check Mailgun → **Sending → Logs** (or the account's Events page) for the message event. A successful API acceptance means Mailgun accepted the message for processing; confirm the destination inbox receives it and inspect spam/promotions too.
+8. Inspect the email on desktop and mobile. The sender sends a responsive branded HTML layout and a plain-text fallback. If it is missing, use the Mailgun event status and Vercel function error to diagnose suppression, DNS, key, domain, or recipient issues.
+
+Never put Mailgun credentials in a `NEXT_PUBLIC_` variable, source file, GitHub, or a screenshot. Do not log the API key. If a key is accidentally exposed, revoke it in Mailgun and replace it in Vercel, then redeploy.
 
 ## Section 4 — WhatsApp and deployment
 
